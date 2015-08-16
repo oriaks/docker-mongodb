@@ -1,0 +1,20 @@
+data:
+  build: data
+  container_name: mongodb_data
+  volumes:
+    - /var/lib/mongodb
+
+server:
+  build: server
+  container_name: mongodb_server
+  environment:
+    - DEBIAN_FRONTEND=noninteractive
+    - TERM=linux
+  log_driver: syslog
+  log_opt:
+    address: "udp://127.0.0.1:514"
+  ports:
+    - "0.0.0.0:27017:27017/tcp"
+  restart: always
+  volumes_from:
+    - data
